@@ -114,6 +114,9 @@ class App extends React.Component {
             // ANY AFTER EFFECTS?
         });
     }
+    updateList = (list) => {
+        this.db.mutationUpdateList(list);
+    }
     // THIS FUNCTION BEGINS THE PROCESS OF CLOSING THE CURRENT LIST
     closeCurrentList = () => {
         this.setState(prevState => ({
@@ -158,7 +161,8 @@ class App extends React.Component {
                     renameListCallback={this.renameList}
                 />
                 <Workspace
-                    currentList={this.state.currentList} />
+                    currentList={this.state.currentList}
+                    updateListCallback={this.updateList} />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteModal
