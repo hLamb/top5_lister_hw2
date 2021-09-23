@@ -3,7 +3,6 @@ import React from "react";
 export default class ListCard extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             text: this.props.keyNamePair.name,
             editActive: false,

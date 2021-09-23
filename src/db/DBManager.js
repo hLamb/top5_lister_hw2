@@ -25,6 +25,11 @@ export default class DBManager {
         this.mutationUpdateList(list);
     }
 
+    mutationRemoveList = (list) => {
+        let listString = JSON.stringify(list);
+        localStorage.removeItem("top5-list-" + list.key, listString);
+    }
+
     mutationUpdateList = (list) => {
         // AND FLOW THOSE CHANGES TO LOCAL STORAGE
         let listString = JSON.stringify(list);

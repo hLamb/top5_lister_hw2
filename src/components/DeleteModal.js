@@ -20,6 +20,7 @@ export default class DeleteModal extends Component {
                         <button
                             id="dialog-yes-button"
                             className="modal-button"
+                            onClick={(e) => this.props.deleteListCallback(this.props.listKeyPair)}
                         >Confirm</button>
                         <button
                             id="dialog-no-button"

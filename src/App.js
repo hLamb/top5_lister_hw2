@@ -20,11 +20,12 @@ class App extends React.Component {
 
         // GET THE SESSION DATA FROM OUR DATA MANAGER
         let loadedSessionData = this.db.queryGetSessionData();
-
+        console.log(loadedSessionData);
         // SETUP THE INITIAL STATE
         this.state = {
             currentList : null,
-            sessionData : loadedSessionData
+            sessionData : loadedSessionData,
+            listToDelete : null
         }
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
@@ -127,18 +128,25 @@ class App extends React.Component {
             // ANY AFTER EFFECTS?
         });
     }
-    deleteList = () => {
+    deleteList = (keyNamePair) => {
         // SOMEHOW YOU ARE GOING TO HAVE TO FIGURE OUT
         // WHICH LIST IT IS THAT THE USER WANTS TO
         // DELETE AND MAKE THAT CONNECTION SO THAT THE
         // NAME PROPERLY DISPLAYS INSIDE THE MODAL
-        this.showDeleteListModal();
+        if(keyNamePair.key === this.state.currentList.key) this.closeCurrentList();
+        let keyNamePairs = this.state.sessionData.keyNamePairs;
+        keyNamePairs.splice(keyNamePairs.findIndex(obj => obj.name === keyNamePair.name), 1);
+        this.db.mutationUpdateSessionData(this.state.sessionData);
+        this.db.mutationRemoveList(this.db.queryGetList(keyNamePair.key));
+        this.hideDeleteListModal();
+        this.setState({ listToDelete: null});
     }
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
-    showDeleteListModal() {
+    showDeleteListModal = (keyNamePair) => {
         let modal = document.getElementById("delete-modal");
         modal.classList.add("is-visible");
+        this.setState({ listToDelete : keyNamePair});
     }
     // THIS FUNCTION IS FOR HIDING THE MODAL
     hideDeleteListModal() {
@@ -156,7 +164,7 @@ class App extends React.Component {
                     currentList={this.state.currentList}
                     keyNamePairs={this.state.sessionData.keyNamePairs}
                     createNewListCallback={this.createNewList}
-                    deleteListCallback={this.deleteList}
+                    deleteListCallback={this.showDeleteListModal}
                     loadListCallback={this.loadList}
                     renameListCallback={this.renameList}
                 />
@@ -166,6 +174,8 @@ class App extends React.Component {
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteModal
+                    listKeyPair={this.state.listToDelete}
+                    deleteListCallback={this.deleteList}
                     hideDeleteListModalCallback={this.hideDeleteListModal}
                 />
             </div>
