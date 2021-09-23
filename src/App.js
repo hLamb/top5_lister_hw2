@@ -20,7 +20,6 @@ class App extends React.Component {
 
         // GET THE SESSION DATA FROM OUR DATA MANAGER
         let loadedSessionData = this.db.queryGetSessionData();
-        console.log(loadedSessionData);
         // SETUP THE INITIAL STATE
         this.state = {
             currentList : null,

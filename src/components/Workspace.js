@@ -1,4 +1,5 @@
 import React from "react";
+import EditToolbar from "./EditToolbar";
 
 export default class Workspace extends React.Component {
     constructor(props) {
@@ -67,6 +68,9 @@ export default class Workspace extends React.Component {
     render() {
         return (
             <div id="top5-workspace">
+                <div id="workspace-toolbar">
+                    <EditToolbar />
+                </div>
                 <div id="workspace-edit">
                     <div id="edit-numbering">
                         <div className="item-number">1.</div>
