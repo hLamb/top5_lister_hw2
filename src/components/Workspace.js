@@ -3,10 +3,10 @@ import React from "react";
 export default class Workspace extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.state = {
             editText: "",
-            editID: -1
+            editID: -1,
+            editPos: -1
         }
     }
 
@@ -16,35 +16,50 @@ export default class Workspace extends React.Component {
         if(e.detail === 2)
             this.handleToggle(id);
     }
+
     handleToggle(id) {
         this.setState({
             editID: id
         });
     }
+
     handleKeyPress = (e) => {
         if(e.code === "Enter")
             this.handleBlur();
     }
+
     handleBlur = (e) => {
         this.props.currentList.items[this.state.editID] = this.state.editText;
         this.props.updateListCallback(this.props.currentList);
         this.setState({ editText: "",
                         editID: -1});
     }
+
     handleUpdate = (e) => {
         this.setState({editText: e.target.value});
     }
-    /**handleDrag = (e) => {
 
+    handleDrag = (e) => {
+        let id = parseInt((e.target.id).substring(10), 10);
+        this.setState({ editPos: id });
     }
 
-    handleDragOver = (e) => {
-
+    handleDragEnter = (e) => {
+        e.preventDefault();
+        let targetId = parseInt((e.target.id).substring(10), 10);
+        this.props.currentList.items.splice(targetId, 0, 
+            this.props.currentList.items.splice(this.state.editPos, 1)[0]);
+        this.setState({ editPos: targetId });
     }
 
     handleDrop = (e) => {
+        e.preventDefault();      
+        console.log("hi");  
+        this.props.updateListCallback(this.props.currentList);
+        this.setState({ editPos: -1 });
+    }
 
-    }**/
+
 
     
 
@@ -72,10 +87,16 @@ export default class Workspace extends React.Component {
                                         defaultValue={(this.props.currentList.items[0])}
                                         autoFocus
                                 />
+                                : this.state.editPos === 0 ?
+                                <div    className="top5-item-dragged-to"></div> 
                                 :
                                 <div    id="top5-item-0" 
                                         className="top5-item"
-                                        onClick={this.handleClick}>
+                                        onClick={this.handleClick}
+                                        draggable='true'
+                                        onDragStart={this.handleDrag}
+                                        onDragEnter={this.handleDragEnter}
+                                        onDragEnd={this.handleDrop}>
                                         {(this.props.currentList.items[0])}
                                 </div>
                             }
@@ -89,10 +110,16 @@ export default class Workspace extends React.Component {
                                         defaultValue={(this.props.currentList.items[1])}
                                         autoFocus
                                 />
+                                : this.state.editPos === 1 ?
+                                <div    className="top5-item-dragged-to"></div> 
                                 :
                                 <div    id="top5-item-1" 
                                         className="top5-item"
-                                        onClick={this.handleClick}>
+                                        onClick={this.handleClick}
+                                        draggable='true'
+                                        onDragStart={this.handleDrag}
+                                        onDragEnter={this.handleDragEnter}
+                                        onDragEnd={this.handleDrop}>
                                         {(this.props.currentList.items[1])}
                                 </div>
                             }
@@ -106,10 +133,16 @@ export default class Workspace extends React.Component {
                                         defaultValue={(this.props.currentList.items[2])}
                                         autoFocus
                                 />
+                                : this.state.editPos === 2 ?
+                                <div    className="top5-item-dragged-to"></div> 
                                 :
                                 <div    id="top5-item-2" 
                                         className="top5-item"
-                                        onClick={this.handleClick}>
+                                        onClick={this.handleClick}
+                                        draggable='true'
+                                        onDragStart={this.handleDrag}
+                                        onDragEnter={this.handleDragEnter}
+                                        onDragEnd={this.handleDrop}>
                                         {(this.props.currentList.items[2])}
                                 </div>
                             }
@@ -123,10 +156,16 @@ export default class Workspace extends React.Component {
                                         defaultValue={(this.props.currentList.items[3])}
                                         autoFocus
                                 />
+                                : this.state.editPos === 3 ?
+                                <div    className="top5-item-dragged-to"></div> 
                                 :
                                 <div    id="top5-item-3" 
                                         className="top5-item"
-                                        onClick={this.handleClick}>
+                                        onClick={this.handleClick}
+                                        draggable='true'
+                                        onDragStart={this.handleDrag}
+                                        onDragEnter={this.handleDragEnter}
+                                        onDragEnd={this.handleDrop}>
                                         {(this.props.currentList.items[3])}
                                 </div>
                             }
@@ -140,10 +179,16 @@ export default class Workspace extends React.Component {
                                         defaultValue={(this.props.currentList.items[4])}
                                         autoFocus
                                 />
+                                : this.state.editPos === 4 ?
+                                <div    className="top5-item-dragged-to"></div>   
                                 :
                                 <div    id="top5-item-4" 
                                         className="top5-item"
-                                        onClick={this.handleClick}>
+                                        onClick={this.handleClick}
+                                        draggable='true'
+                                        onDragStart={this.handleDrag}
+                                        onDragEnter={this.handleDragEnter}
+                                        onDragEnd={this.handleDrop}>
                                         {(this.props.currentList.items[4])}
                                 </div>
                             }
